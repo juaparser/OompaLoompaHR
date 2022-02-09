@@ -33,8 +33,11 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
 
         binding.apply {
-            val adapter = OompaAdapter {
-                findNavController().navigate(R.id.action_nav_main_to_detailsFragment)
+            val adapter = OompaAdapter { id ->
+                viewModel.getDetailOompaLoompa(id) {
+                    val action = MainFragmentDirections.actionNavMainToDetailsFragment(it)
+                    findNavController().navigate(action)
+                }
             }
             rvRepos.adapter = adapter
             Log.d("JPS", "BINDING APPLY ONVIEWCREATED")

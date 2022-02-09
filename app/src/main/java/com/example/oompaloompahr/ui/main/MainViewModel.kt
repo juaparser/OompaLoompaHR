@@ -21,4 +21,10 @@ class MainViewModel : ViewModel() {
             oompaLoompaList.value = it.results
         }
     }
+
+    fun getDetailOompaLoompa(ompaId: Int, next:(oompaLoompa: OompaLoompa) -> Unit) {
+        Api().getOmpa(ompaId) {
+            next(it)
+        }
+    }
 }

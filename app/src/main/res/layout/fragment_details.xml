@@ -91,9 +91,10 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/ivAge"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher_background"/>
+                    android:src="@drawable/ic_age"/>
 
                 <TextView
                     android:id="@+id/tvAge"
@@ -114,7 +115,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher_background"/>
+                    android:src="@drawable/ic_country"/>
 
                 <TextView
                     android:id="@+id/tvCountry"
@@ -135,7 +136,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher_background"/>
+                    android:src="@drawable/ic_height"/>
 
                 <TextView
                     android:id="@+id/tvHeight"
@@ -211,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvFavoriteLabel"
-                    tools:text="El color rosa"/>
+                    tools:text="El color rosa" />
 
             </RelativeLayout>
 

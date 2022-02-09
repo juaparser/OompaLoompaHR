@@ -12,6 +12,8 @@ data class OompaLoompa(
     val first_name: String,
     @Json(name = "last_name")
     val last_name: String,
+    @Json(name = "description")
+    val description: String? = null,
     @Json(name = "gender")
     val gender: String,
     @Json(name = "image")

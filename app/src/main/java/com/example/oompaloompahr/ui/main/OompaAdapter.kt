@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.oompaloompahr.api.OompaLoompa
 import com.example.oompaloompahr.databinding.ListItemBinding
 
-class OompaAdapter(val onClick: () -> Unit): ListAdapter<OompaLoompa, OompaAdapter.OompaViewHolder>(COMPARATOR) {
+class OompaAdapter(val onClick: (ompaId: Int) -> Unit): ListAdapter<OompaLoompa, OompaAdapter.OompaViewHolder>(COMPARATOR) {
 
     private lateinit var context: Context
 
@@ -23,7 +23,7 @@ class OompaAdapter(val onClick: () -> Unit): ListAdapter<OompaLoompa, OompaAdapt
             with(binding) {
 
                 binding.root.setOnClickListener {
-                    onClick()
+                    onClick(oompaLoompa.id)
                 }
 
                 tvName.text = oompaLoompa.first_name + " " + oompaLoompa.last_name
