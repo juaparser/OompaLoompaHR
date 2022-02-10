@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 private const val BASE_API_URL = "https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/"
@@ -25,8 +26,8 @@ class Api {
 
     interface MyApiEndpointInterface {
         // Request method and URL specified in the annotation
-        @GET("oompa-loompas/?page=1")
-        fun getOmpas(): Call<Data>
+        @GET("oompa-loompas")
+        fun getOmpas(@Query("page") pageNumber: Int): Call<Data>
 
         @GET("oompa-loompas/{id}")
         fun getOmpa(@Path("id") id: Int): Call<OompaLoompa>
@@ -34,8 +35,8 @@ class Api {
 
     var apiService = retrofit.create(MyApiEndpointInterface::class.java)
 
-    fun getOmpas(res: (data: Data) -> Unit) {
-        val call: Call<Data> = apiService.getOmpas()
+    fun getOmpas(page: Int, res: (data: Data) -> Unit) {
+        val call: Call<Data> = apiService.getOmpas(page)
         call.enqueue(object : Callback<Data> {
             override fun onResponse(call: Call<Data>, response: Response<Data>) {
                 val data = response.body()

@@ -15,9 +15,8 @@ class MainViewModel : ViewModel() {
     val oompaLoompaList = MutableLiveData<List<OompaLoompa>>()
     val error = MutableLiveData<Int>()
 
-    fun getOompaLoompas() {
-        Api().getOmpas {
-            Log.d("JPS", "GET NEW OOMPAS " + it)
+    fun getOompaLoompas(page: Int) {
+        Api().getOmpas(page) {
             oompaLoompaList.value = it.results
         }
     }

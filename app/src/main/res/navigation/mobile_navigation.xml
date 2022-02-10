@@ -9,23 +9,29 @@
     <fragment
         android:id="@+id/nav_main"
         android:name="com.example.oompaloompahr.ui.main.MainFragment"
-        android:label="main_fragment"
+        android:label="Lista empleados"
         tools:layout="@layout/main_fragment" >
         <action
             android:id="@+id/action_nav_main_to_detailsFragment"
             app:destination="@id/detailsFragment"
-            app:popUpTo="@id/nav_main">
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+            <argument
+                android:name="oompaLoompaId"
+                app:argType="integer" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.oompaloompahr.ui.details.DetailsFragment"
-        android:label="fragment_details"
+        android:label="Detalles empleado"
         tools:layout="@layout/fragment_details">
         <argument
-            app:argType="com.example.oompaloompahr.api.OompaLoompa"
-            android:name="oompaLoompa"/>
+            app:argType="integer"
+            android:name="oompaLoompaId"/>
     </fragment>
 
 
