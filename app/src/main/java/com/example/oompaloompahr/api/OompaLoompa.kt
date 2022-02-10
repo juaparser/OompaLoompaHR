@@ -5,6 +5,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Modelo OompaLoompa de los empleados.
+ * La variable description es nullable dado que solo existe en la petición de detalles.
+ */
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class OompaLoompa(

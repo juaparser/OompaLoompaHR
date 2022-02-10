@@ -17,6 +17,10 @@ import com.example.oompaloompahr.databinding.MainFragmentBinding
 import com.example.oompaloompahr.ui.main.MainFragmentDirections
 import com.example.oompaloompahr.ui.main.MainViewModel
 
+/**
+ * Fragmento de detalles del empleado. Recibe como parámetro un Integer con el id
+ * del Oompa Loompa que se quiere ver más información.
+ */
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -40,6 +44,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
+    /**
+     * Método al que se llama cuando se completa la petición de obtener más detalles del Oompa Loompa.
+     * Se utiliza para cargar toda la información del empleado una vez se tengan los datos listos.
+     */
     private fun loadUI(binding: FragmentDetailsBinding) {
         binding.apply {
             binding.loadContent.visibility = View.GONE
@@ -52,6 +60,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             tvAge.text = oompaLoompa?.age.toString()
             tvEmail.text = oompaLoompa?.email
             tvHeight.text = oompaLoompa?.height.toString() + " cm"
+
+            oompaLoompa?.description.let {
+                tvDescription.text = it
+            }
 
 
             if(oompaLoompa?.gender == "F") {

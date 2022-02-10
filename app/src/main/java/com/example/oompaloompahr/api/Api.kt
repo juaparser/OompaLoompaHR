@@ -10,9 +10,15 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-
 private const val BASE_API_URL = "https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/"
 
+/**
+ * Clase donde se gestionan las peticiones a la API.
+ * La constante BASE_API_URL es la url básica de la aplicación, donde el resto de peticiones
+ * se construirán en base a esta.
+ *
+ * Se ha utilizado Retrofit con Gson para hacer las peticiones y construir las respuestas.
+ */
 class Api {
 
     var gson = GsonBuilder()
@@ -24,8 +30,11 @@ class Api {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
+    /**
+     * Interfaz donde se han construido las peticiones.
+     */
     interface MyApiEndpointInterface {
-        // Request method and URL specified in the annotation
+
         @GET("oompa-loompas")
         fun getOmpas(@Query("page") pageNumber: Int): Call<Data>
 

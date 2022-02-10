@@ -12,6 +12,10 @@ import com.example.oompaloompahr.databinding.MainActivityBinding
 import com.example.oompaloompahr.ui.main.MainFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/**
+ * Actividad principal de la aplicación.
+ * Aquí se inicializa la navegación de los fragmentos.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding

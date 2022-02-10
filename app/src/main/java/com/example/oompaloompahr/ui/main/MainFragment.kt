@@ -19,7 +19,10 @@ import com.example.oompaloompahr.databinding.DialogBottomSheetFilterBinding
 import com.example.oompaloompahr.databinding.MainFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-
+/**
+ * Fragmento principal de la aplicación, el primero que se carga al entrar.
+ * Contiene el listado de empleados y su filtrado.
+ */
 class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelectedListener {
 
     /**
@@ -35,6 +38,7 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
 
     private var filterProfession = ""
     private var filterGender = ""
+    private var isFiltering = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,21 +77,24 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
                 adapter.submitList(currentList)
 
                 /**
+                 * Al llegar al final del RecyclerView, hacer una nueva petición para obtener más empleados.
                  * A MEJORAR: Hacer scroll dinámico, cuando se llega al nuevo final, cargar nuevas páginas.
                  * Solo lo hace una vez.
                  */
                 rvOmpa.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                        val totalItemCount = layoutManager.itemCount
-                        val lastVisible = layoutManager.findLastVisibleItemPosition()
-                        val endHasBeenReached = lastVisible + 5 >= totalItemCount
+                        if(!isFiltering) {
+                            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                            val totalItemCount = layoutManager.itemCount
+                            val lastVisible = layoutManager.findLastVisibleItemPosition()
+                            val endHasBeenReached = lastVisible + 5 >= totalItemCount
 
-                        if (totalItemCount > 0 && endHasBeenReached) {
-                            // Hemos alcanzado el final del recyclerview, cargar nueva página
-                            pageValue++
-                            binding.loadContent.visibility = View.VISIBLE
-                            viewModel.getOompaLoompas(pageValue)
+                            if (totalItemCount > 0 && endHasBeenReached) {
+                                // Hemos alcanzado el final del recyclerview, cargar nueva página
+                                pageValue++
+                                binding.loadContent.visibility = View.VISIBLE
+                                viewModel.getOompaLoompas(pageValue)
+                            }
                         }
                     }
                 })
@@ -95,6 +102,9 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Creación y gestión del menú de opciones para filtrar contenido.
+     */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.filter_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -111,6 +121,16 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
         }
     }
 
+    /**
+     * Gestión de filtros para el listado.
+     *
+     * He decidido utilizar iconos para filtrar por género, ya que es más intuitivo.
+     *
+     * Para el caso de las profesiones, al iniciar la lista guardo los distintos tipos de profesiones
+     * de los empleados del listado, y lo utilizo para el menú dropdown en la selección.
+     *
+     * A MEJORAR: Al volver de la vista de detalles, que el filtro se mantenga.
+     */
 
     private fun doFilter() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
@@ -120,8 +140,8 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
 
         bottomSheetBinding.apply {
 
-            if (filterGender == "M") cardMale.setBackgroundColor(requireContext().getColor(R.color.purple_200))
-            else if(filterGender == "F") cardFemale.setBackgroundColor(requireContext().getColor(R.color.purple_200))
+            //if (filterGender == "M") cardMale.setBackgroundColor(requireContext().getColor(R.color.purple_200))
+            //else if(filterGender == "F") cardFemale.setBackgroundColor(requireContext().getColor(R.color.purple_200))
 
 
             spinnerProfession.adapter = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, professionList)
@@ -135,7 +155,6 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
                     it.setBackgroundColor(requireContext().getColor(R.color.white))
                 } else {
                     filterGender = "M"
-                    Log.d("JPS","GENDER MALE PICKED")
                     cardFemale.setBackgroundColor(requireContext().getColor(R.color.white))
                     it.setBackgroundColor(requireContext().getColor(R.color.purple_200))
                 }
@@ -146,34 +165,36 @@ class MainFragment : Fragment(R.layout.main_fragment), AdapterView.OnItemSelecte
                     it.setBackgroundColor(requireContext().getColor(R.color.white))
                 } else {
                     filterGender = "F"
-                    Log.d("JPS","GENDER FEMALE PICKED")
                     cardMale.setBackgroundColor(requireContext().getColor(R.color.white))
                     it.setBackgroundColor(requireContext().getColor(R.color.purple_200))
                 }
-/*                val newList = currentList.filter { x -> x.gender == "F" }
-                adapter.submitList(newList)
-                bottomSheetDialog.dismiss()*/
             }
             var newList = listOf<OompaLoompa>()
 
-            if(filterGender.isNotEmpty()) {
-                if(filterProfession.isNotEmpty())
-                    newList = currentList.filter { x -> x.gender == filterGender && filterProfession == x.profession }
-                else {
-                    Log.d("JPS","GENDER NOT EMPTY, PROFESSION EMPTY $filterGender y $filterProfession")
-                    newList = currentList.filter { x -> x.gender == filterGender }
-                }
-            } else if(filterProfession.isNotEmpty()) {
-                newList = currentList.filter { x -> filterProfession == x.profession }
-            }
 
             btnApplyFilter.setOnClickListener {
-                Log.d("JPS","NEWLIST IS " + newList)
-                Log.d("JPS","FILTERS ARE GENDER $filterGender Y profession $filterProfession")
+                if(filterGender.isNotEmpty()) {
+                    if(filterProfession.isNotEmpty()) {
+                        Log.d(
+                            "JPS",
+                            "GENDER NOT EMPTY, PROFESSION NOT EMPTY $filterGender y $filterProfession"
+                        )
+                        newList =
+                            currentList.filter { x -> x.gender == filterGender && filterProfession == x.profession }
+                    }else {
+                        Log.d("JPS","GENDER NOT EMPTY, PROFESSION EMPTY $filterGender y $filterProfession")
+                        newList = currentList.filter { x -> x.gender == filterGender }
+                    }
+                } else if(filterProfession.isNotEmpty()) {
+                    newList = currentList.filter { x -> filterProfession == x.profession }
+                }
+
                 if(newList.isNotEmpty()) {
+                    isFiltering = true
                     adapter.submitList(newList)
                     bottomSheetDialog.dismiss()
                 } else {
+                    isFiltering = false
                     bottomSheetDialog.dismiss()
                 }
             }

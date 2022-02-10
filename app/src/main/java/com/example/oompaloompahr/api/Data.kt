@@ -5,6 +5,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Modelo Data que contiene la lista de empleados OompaLoompa
+ */
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Data(

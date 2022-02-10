@@ -10,6 +10,9 @@ import com.bumptech.glide.Glide
 import com.example.oompaloompahr.api.OompaLoompa
 import com.example.oompaloompahr.databinding.ListItemBinding
 
+/**
+ * Adaptador para el RecyclerView con el listado de empleados.
+ */
 class OompaAdapter(val onClick: (ompaId: Int) -> Unit): ListAdapter<OompaLoompa, OompaAdapter.OompaViewHolder>(COMPARATOR) {
 
     private lateinit var context: Context

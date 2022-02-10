@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_filter_gender"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_male"
+        android:icon="@drawable/ic_filter"
         android:title="Filter by gender"
         app:showAsAction="always" />
 

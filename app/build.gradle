@@ -36,6 +36,14 @@ android {
     }
 }
 
+/**
+ * DESCRIPCIÓN DE LAS LIBRERIAS AÑADIDAS:
+ *     - androidx.lifecycle (ambas): Para la gestión y recepción de los datos provenientes de la API.
+ *     - androidx.navigation (ambas): Para la navegación entre fragmentos con argumentos.
+ *     - com.squareup.retrofit y com.google.code.gson: Para la construcción de las peticiones y respuestas.
+ *     - com.github.bumptech.glide: Para la carga de imágenes en la aplicación con URL.
+*/
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -55,11 +63,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation 'com.google.code.gson:gson:2.8.8'
-
-
-    //JSON Parse to Kotlin Classes
-    implementation 'com.squareup.moshi:moshi:1.13.0'
-    annotationProcessor 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
